@@ -3,13 +3,20 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController {
     
-    struct QuizQuestion{
+    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet private weak var counterLabel: UILabel!
+    @IBOutlet private weak var textLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var noButton: UIButton!
+    @IBOutlet private weak var yesButton: UIButton!
+    
+    private struct QuizQuestion{
         let image: String
         let text: String
         let correctAnswer: Bool
     }
     
-    struct QuizResultsViewModel {
+    private struct QuizResultsViewModel {
         // строка с заголовком алерта
         let title: String
         // строка с текстом о количестве набранных очков
@@ -78,36 +85,13 @@ final class MovieQuizViewController: UIViewController {
         return questionStep
     }
     
-    @IBOutlet private var counterLabel: UILabel!
-    @IBOutlet private var textLabel: UILabel!
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet weak var noButton: UIButton!
-    @IBOutlet weak var yesButton: UIButton!
-    
-    
-    @IBAction private func yesButtonClicked(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-        yesButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.yesButton.isEnabled = true
-        }
-    }
-    
-    @IBAction private func noButtonClicked(_ sender: Any) {
-        let currentQuestion = questions[currentQuestionIndex]
-        let givenAnswer = false
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-        noButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.noButton.isEnabled = true
-        }
-    }
-    
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
+        counterLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
+        questionLabel.font = UIFont(name: "YSDisplay-Medium", size: 20)
+        textLabel.font = UIFont(name: "YSDisplay-Bold", size: 23)
+        noButton.titleLabel!.font = UIFont(name: "YSDisplay-Medium", size: 20)
+        yesButton.titleLabel!.font = UIFont(name: "YSDisplay-Medium", size: 20)
         super.viewDidLoad()
         show(quiz: convert(model: questions[currentQuestionIndex]))
     }
@@ -127,7 +111,6 @@ final class MovieQuizViewController: UIViewController {
         let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
-            
             let firstQuestion = self.questions[self.currentQuestionIndex]
             let viewModel = self.convert(model: firstQuestion)
             self.show(quiz: viewModel)
@@ -162,6 +145,31 @@ final class MovieQuizViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.imageView.layer.borderWidth = 0
             self.showNextQuestionOrResults()
+        }
+    }
+    
+    @IBAction private func noButtonClicked(_ sender: Any) {
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = false
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        noButton.isEnabled = false
+        yesButton.isEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.noButton.isEnabled = true
+            self.yesButton.isEnabled = true
+            
+        }
+    }
+    
+    @IBAction private func yesButtonClicked(_ sender: Any) {
+        let currentQuestion = questions[currentQuestionIndex]
+        let givenAnswer = true
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.yesButton.isEnabled = true
+            self.noButton.isEnabled = true
         }
     }
 }
