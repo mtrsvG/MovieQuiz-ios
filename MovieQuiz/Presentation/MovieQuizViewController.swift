@@ -3,7 +3,7 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController {
     
-    @IBOutlet weak var questionLabel: UILabel!
+    @IBOutlet private weak var questionLabel: UILabel!
     @IBOutlet private weak var counterLabel: UILabel!
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
@@ -120,6 +120,8 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func showNextQuestionOrResults() {
+        self.noButton.isEnabled = true
+        self.yesButton.isEnabled = true
         if currentQuestionIndex == questions.count - 1 {
             let text = "Ваш результат: \(correctAnswers)/10" // 1
             let viewModel = QuizResultsViewModel( // 2
@@ -154,23 +156,14 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
         noButton.isEnabled = false
         yesButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.noButton.isEnabled = true
-            self.yesButton.isEnabled = true
-            
-        }
     }
     
     @IBAction private func yesButtonClicked(_ sender: Any) {
         let currentQuestion = questions[currentQuestionIndex]
         let givenAnswer = true
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
         yesButton.isEnabled = false
         noButton.isEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.yesButton.isEnabled = true
-            self.noButton.isEnabled = true
-        }
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
 }
 
