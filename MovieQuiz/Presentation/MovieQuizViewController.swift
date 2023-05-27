@@ -54,11 +54,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
         alertPresenter = AlertPresenter(viewController: self)
         statisticService = StatisticServiceImplementation()
-//        statisticService!.cleanUserDefaults(correct: 0, total: 0)
         
     }
-    
-    
     
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
