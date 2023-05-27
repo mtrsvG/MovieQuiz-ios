@@ -54,6 +54,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
         alertPresenter = AlertPresenter(viewController: self)
         statisticService = StatisticServiceImplementation()
+//        statisticService!.cleanUserDefaults(correct: 0, total: 0)
+        
     }
     
     
@@ -88,7 +90,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             print("Не удалось получить данные")
             return
         }
-        statisticService.store(correct: correctAnswers, total: questionsAmount)
         let alertModel = AlertModel(title: result.title,
                                     message: result.text,
                                     buttonText: result.buttonText,
@@ -102,11 +103,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     func message(statisticService: StatisticService, correct: Int, total: Int) -> String{
+        statisticService.store(correct: correctAnswers, total: questionsAmount)
         let bestGame = statisticService.bestGame
-        let message = "Ваш результат: \(correct)/\(total) \n" +
-        "Колличество сыгранных квизов: \(statisticService.gamesCount)\n" +
-        "Рекорд: \(bestGame.correct)/\(bestGame.total) (\(bestGame.date.dateTimeString)) \n " +
-        "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))% "
+        let message = """
+Ваш результат: \(correct)/\(total)
+Колличество сыгранных квизов: \(statisticService.gamesCount)
+Рекорд: \(bestGame.correct)/\(bestGame.total) (\(bestGame.date.dateTimeString))
+Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+"""
         return message
     }
     

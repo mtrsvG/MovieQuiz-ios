@@ -23,10 +23,20 @@ protocol StatisticService {
     var gamesCount: Int { get }
     var bestGame: GameRecord { get }
     func store(correct count: Int, total amount: Int)
+    func cleanUserDefaults(correct count: Int, total amount: Int)
 }
 
 
 final class StatisticServiceImplementation: StatisticService {
+    func cleanUserDefaults(correct count: Int, total amount: Int) {
+        self.correct = 0
+        self.total = 0
+        self.gamesCount = 0
+        bestGame = GameRecord(correct: 0, total: 0, date: Date())
+    }
+    
+    
+    
     
     private let userDefaults = UserDefaults.standard
     
@@ -55,6 +65,7 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.integer(forKey: Keys.total.rawValue)
         }
         set {
+            print("Произошла запись \(newValue)")
             userDefaults.set(newValue, forKey: Keys.total.rawValue)
         }
     }
@@ -86,6 +97,8 @@ final class StatisticServiceImplementation: StatisticService {
     }
     
     
+    
+    
     func store(correct count: Int, total amount: Int) {
         
         self.correct += count
@@ -93,12 +106,10 @@ final class StatisticServiceImplementation: StatisticService {
         self.total += amount
         
         self.gamesCount += 1
-
         let thisGame = GameRecord(correct: count, total: amount, date: Date())
         if bestGame < thisGame {
             bestGame = thisGame
         }
-        
     }
     
 }
