@@ -70,7 +70,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         self.noButton.isEnabled = true
         self.yesButton.isEnabled = true
         if currentQuestionIndex == questionsAmount - 1 {
-            guard let statisticService = statisticService else { return }
+            guard let statisticService = statisticService else {
+                print("Не удалось получить данные")
+                return
+            }
             let viewModel = QuizResultsViewModel (title: "Этот раунд окончен",
                                                   text: message(statisticService: statisticService,
                                                                 correct: correctAnswers,
@@ -85,11 +88,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     func showFinalResult(result: QuizResultsViewModel) {
-        
-        guard let statisticService = statisticService else {
-            print("Не удалось получить данные")
-            return
-        }
         let alertModel = AlertModel(title: result.title,
                                     message: result.text,
                                     buttonText: result.buttonText,
