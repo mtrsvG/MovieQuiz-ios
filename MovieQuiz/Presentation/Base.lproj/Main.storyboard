@@ -114,17 +114,23 @@
                                     <constraint firstAttribute="bottom" secondItem="S4X-Gw-Fn2" secondAttribute="bottom" id="tAb-hw-cO9"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="l92-TY-SjZ">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QMg-aC-VAA" secondAttribute="bottom" id="9qv-z4-40e"/>
+                            <constraint firstItem="l92-TY-SjZ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ian-qm-3pr"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QMg-aC-VAA" secondAttribute="trailing" constant="20" id="bH3-jo-ljB"/>
+                            <constraint firstItem="l92-TY-SjZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gl1-oe-cxJ"/>
                             <constraint firstItem="QMg-aC-VAA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="uNc-4k-Sic"/>
                             <constraint firstItem="QMg-aC-VAA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="yMB-oa-Vir"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="l92-TY-SjZ" id="cvO-R3-mmg"/>
                         <outlet property="counterLabel" destination="z6f-by-I2I" id="YQC-Oi-IgW"/>
                         <outlet property="imageView" destination="a3r-Zm-ke3" id="r8s-on-aMb"/>
                         <outlet property="noButton" destination="HuK-y3-BTD" id="EuX-KR-kvK"/>
@@ -140,7 +146,7 @@
     </scenes>
     <resources>
         <namedColor name="YP Black">
-            <color red="0.10196078431372549" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
